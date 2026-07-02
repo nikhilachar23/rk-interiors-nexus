@@ -9,12 +9,60 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RenovationsRouteImport } from './routes/renovations'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PackagesRouteImport } from './routes/packages'
+import { Route as InteriorsRouteImport } from './routes/interiors'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ConstructionRouteImport } from './routes/construction'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TestimonialsRoute = TestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RenovationsRoute = RenovationsRouteImport.update({
+  id: '/renovations',
+  path: '/renovations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackagesRoute = PackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InteriorsRoute = InteriorsRouteImport.update({
+  id: '/interiors',
+  path: '/interiors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConstructionRoute = ConstructionRouteImport.update({
+  id: '/construction',
+  path: '/construction',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,37 +73,156 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/construction': typeof ConstructionRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
+  '/interiors': typeof InteriorsRoute
+  '/packages': typeof PackagesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/renovations': typeof RenovationsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/testimonials': typeof TestimonialsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/construction': typeof ConstructionRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
+  '/interiors': typeof InteriorsRoute
+  '/packages': typeof PackagesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/renovations': typeof RenovationsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/testimonials': typeof TestimonialsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/construction': typeof ConstructionRoute
+  '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
+  '/interiors': typeof InteriorsRoute
+  '/packages': typeof PackagesRoute
+  '/portfolio': typeof PortfolioRoute
+  '/renovations': typeof RenovationsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/testimonials': typeof TestimonialsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/construction'
+    | '/contact'
+    | '/gallery'
+    | '/interiors'
+    | '/packages'
+    | '/portfolio'
+    | '/renovations'
+    | '/sitemap.xml'
+    | '/testimonials'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sitemap.xml'
-  id: '__root__' | '/' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/construction'
+    | '/contact'
+    | '/gallery'
+    | '/interiors'
+    | '/packages'
+    | '/portfolio'
+    | '/renovations'
+    | '/sitemap.xml'
+    | '/testimonials'
+  id:
+    | '__root__'
+    | '/'
+    | '/construction'
+    | '/contact'
+    | '/gallery'
+    | '/interiors'
+    | '/packages'
+    | '/portfolio'
+    | '/renovations'
+    | '/sitemap.xml'
+    | '/testimonials'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConstructionRoute: typeof ConstructionRoute
+  ContactRoute: typeof ContactRoute
+  GalleryRoute: typeof GalleryRoute
+  InteriorsRoute: typeof InteriorsRoute
+  PackagesRoute: typeof PackagesRoute
+  PortfolioRoute: typeof PortfolioRoute
+  RenovationsRoute: typeof RenovationsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TestimonialsRoute: typeof TestimonialsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/testimonials': {
+      id: '/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof TestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/renovations': {
+      id: '/renovations'
+      path: '/renovations'
+      fullPath: '/renovations'
+      preLoaderRoute: typeof RenovationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packages': {
+      id: '/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof PackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/interiors': {
+      id: '/interiors'
+      path: '/interiors'
+      fullPath: '/interiors'
+      preLoaderRoute: typeof InteriorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/construction': {
+      id: '/construction'
+      path: '/construction'
+      fullPath: '/construction'
+      preLoaderRoute: typeof ConstructionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,7 +237,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConstructionRoute: ConstructionRoute,
+  ContactRoute: ContactRoute,
+  GalleryRoute: GalleryRoute,
+  InteriorsRoute: InteriorsRoute,
+  PackagesRoute: PackagesRoute,
+  PortfolioRoute: PortfolioRoute,
+  RenovationsRoute: RenovationsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TestimonialsRoute: TestimonialsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
