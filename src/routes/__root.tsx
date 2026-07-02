@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteNav } from "@/components/site/site-nav";
+import { SiteFooter } from "@/components/site/site-footer";
+import { WhatsappFab } from "@/components/site/whatsapp-fab";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +80,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "RK Interiors — Redefining Spaces, Enriching Lives" },
+      {
+        name: "description",
+        content:
+          "RK Interiors designs and builds premium homes, modular kitchens, offices and commercial spaces. Turnkey construction and interior design with custom design, quality assured, on-time delivery.",
+      },
+      { name: "author", content: "RK Interiors" },
+      { name: "theme-color", content: "#0b1224" },
+      { property: "og:site_name", content: "RK Interiors" },
+      { property: "og:title", content: "RK Interiors — Redefining Spaces, Enriching Lives" },
+      {
+        property: "og:description",
+        content:
+          "Premium interior design and turnkey construction — homes, kitchens, offices and commercial spaces.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -92,6 +104,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "RK Interiors",
+          description:
+            "Premium interior design and turnkey home construction — homes, modular kitchens, offices and commercial spaces.",
+          image: "/rk-social.jpg",
+          telephone: ["+91-9538772060", "+91-7892656285"],
+          priceRange: "₹₹₹",
+          areaServed: "Bengaluru, Karnataka, India",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Bengaluru",
+            addressRegion: "Karnataka",
+            addressCountry: "IN",
+          },
+          founder: { "@type": "Person", name: "Vedu" },
+          makesOffer: [
+            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Interior Design" } },
+            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Modular Kitchens" } },
+            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Turnkey Home Construction" } },
+            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Office Fit-outs" } },
+            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Renovations" } },
+          ],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -119,8 +167,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col marble-surface">
+        <SiteNav />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
+        <WhatsappFab />
+      </div>
     </QueryClientProvider>
   );
 }
