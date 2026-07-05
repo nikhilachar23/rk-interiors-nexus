@@ -1,7 +1,8 @@
 import { createClient, type SanityClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined;
+// Sanity project ID and dataset are publishable — safe in client code.
+const projectId = (import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined) ?? "qo2a2fhg";
 const dataset = (import.meta.env.VITE_SANITY_DATASET as string | undefined) ?? "production";
 
 export const sanityConfigured = Boolean(projectId);
