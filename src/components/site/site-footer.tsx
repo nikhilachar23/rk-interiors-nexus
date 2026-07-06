@@ -99,8 +99,8 @@ export function SiteFooter() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                <a href="mailto:hello@rkinteriors.in" className="hover:text-gold">
-                  hello@rkinteriors.in
+                <a href="mailto:vedaraj.vedu@gmail.com" className="hover:text-gold">
+                  vedaraj.vedu@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
