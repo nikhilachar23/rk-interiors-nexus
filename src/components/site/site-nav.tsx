@@ -39,7 +39,11 @@ export function SiteNav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
         <Link to="/" className="group flex items-center gap-3" aria-label="RK Interiors home">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-sm border-gold-hairline bg-navy-deep">
-            <span className="font-serif text-lg font-semibold text-gold-gradient leading-none">RK</span>
+            <img
+            src="/images/rk-logo-mark.png"
+            alt="RK Interiors"
+            className="h-full w-full object-contain p-1.5"
+            />
           </span>
           <span className="hidden min-w-0 flex-col leading-tight sm:flex">
             <span className="font-serif text-lg font-semibold tracking-wide text-marble">
