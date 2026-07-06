@@ -96,9 +96,9 @@ function ContactPage() {
               <span className="grid h-12 w-12 place-items-center rounded-md bg-gradient-gold text-navy-deep"><MessageCircle className="h-5 w-5" /></span>
               <div><p className="eyebrow text-muted-foreground">WhatsApp</p><p className="mt-1 font-serif text-lg">Chat with Vedu instantly</p></div>
             </a>
-            <a href="mailto:hello@rkinteriors.in" className="hover-elevate flex items-center gap-4 rounded-lg border border-border bg-card p-6">
+            <a href="mailto:vedaraj.vedu@gmail.com" className="hover-elevate flex items-center gap-4 rounded-lg border border-border bg-card p-6">
               <span className="grid h-12 w-12 place-items-center rounded-md bg-gradient-gold text-navy-deep"><Mail className="h-5 w-5" /></span>
-              <div><p className="eyebrow text-muted-foreground">Email</p><p className="mt-1 font-serif text-lg">hello@rkinteriors.in</p></div>
+              <div><p className="eyebrow text-muted-foreground">Email</p><p className="mt-1 font-serif text-lg">vedaraj.vedu@gmail.com</p></div>
             </a>
             <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-6">
               <span className="grid h-12 w-12 place-items-center rounded-md bg-gradient-gold text-navy-deep"><MapPin className="h-5 w-5" /></span>
