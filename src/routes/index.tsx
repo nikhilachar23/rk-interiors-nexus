@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   Check,
@@ -22,8 +23,42 @@ import heroVilla from "@/assets/hero-villa.jpg";
 import tileBedroom from "@/assets/expertise-bedroom.jpg";
 import tileOffice from "@/assets/expertise-office.jpg";
 import tileWardrobe from "@/assets/expertise-wardrobe.jpg";
+import { fetchHomePage, type HomePage as HomePageDoc } from "@/lib/sanity";
+
+const ICONS: Record<string, typeof Ruler> = {
+  ruler: Ruler,
+  shield: ShieldCheck,
+  hammer: Hammer,
+  sparkles: Sparkles,
+  home: HomeIcon,
+  compass: Compass,
+  wrench: Wrench,
+  timer: Timer,
+  layers: Layers,
+  message: MessageCircle,
+};
+function iconFor(name: string | undefined, fallback: typeof Ruler) {
+  if (!name) return fallback;
+  return ICONS[name.toLowerCase()] ?? fallback;
+}
+
+function useHomeDoc() {
+  const { data } = useQuery({
+    queryKey: ["homePage"],
+    queryFn: fetchHomePage,
+    staleTime: 60_000,
+  });
+  return data ?? null;
+}
 
 export const Route = createFileRoute("/")({
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData({
+      queryKey: ["homePage"],
+      queryFn: fetchHomePage,
+      staleTime: 60_000,
+    });
+  },
   head: () => ({
     meta: [
       { title: "RK Interiors — Interior Design & Turnkey Construction in Bengaluru" },
