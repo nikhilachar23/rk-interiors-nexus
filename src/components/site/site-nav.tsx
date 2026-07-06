@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
+import rkLogo from "@/assets/rk-gold.png";
 
 const links = [
   { to: "/", label: "Home" },
@@ -40,7 +41,7 @@ export function SiteNav() {
         <Link to="/" className="group flex items-center gap-3" aria-label="RK Interiors home">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-sm border-gold-hairline bg-navy-deep">
             <img
-            src="src/assets/rk-gold.png"
+            src={rkLogo}
             alt="RK Interiors"
             className="h-full w-full object-contain p-1.5"
             />
