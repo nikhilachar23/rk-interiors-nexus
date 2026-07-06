@@ -104,35 +104,53 @@ const heroSlides = [
 ];
 
 function HomePage() {
+  const doc = useHomeDoc();
   return (
     <>
-      <Hero />
-      <VideoBand />
-      <Expertise />
-      <PackagesPreview />
-      <TurnkeySection />
-      <Process />
-      <WhyUs />
-      <Partners />
-      <CtaBand />
+      <Hero doc={doc} />
+      <VideoBand doc={doc} />
+      <Expertise doc={doc} />
+      <PackagesPreview doc={doc} />
+      <TurnkeySection doc={doc} />
+      <Process doc={doc} />
+      <WhyUs doc={doc} />
+      <Partners doc={doc} />
+      <CtaBand doc={doc} />
     </>
   );
 }
 
-function Hero() {
+function Hero({ doc }: { doc: HomePageDoc | null }) {
+  const slides =
+    doc?.heroSlides && doc.heroSlides.length > 0
+      ? doc.heroSlides.map((s, i) => ({
+          image: s.imageUrl ?? heroSlides[i % heroSlides.length].image,
+          eyebrow: s.eyebrow ?? "",
+          title: s.title ?? "",
+          accent: s.accent ?? "",
+          lead: s.lead ?? "",
+          alt: s.alt ?? `${s.eyebrow} — ${s.title} ${s.accent}`,
+        }))
+      : heroSlides.map((s) => ({ ...s, alt: `${s.eyebrow} — ${s.title} ${s.accent}` }));
+  const primaryLabel = doc?.heroPrimaryCtaLabel ?? "Book a Free Consultation";
+  const primaryHref = doc?.heroPrimaryCtaHref ?? "/contact";
+  const secondaryLabel = doc?.heroSecondaryCtaLabel ?? "View Portfolio";
+  const secondaryHref = doc?.heroSecondaryCtaHref ?? "/portfolio";
+
   const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % heroSlides.length), 6000);
+    if (slides.length <= 1) return;
+    const t = setInterval(() => setI((v) => (v + 1) % slides.length), 6000);
     return () => clearInterval(t);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="relative isolate min-h-[92vh] overflow-hidden text-marble">
-      {heroSlides.map((s, idx) => (
+      {slides.map((s, idx) => (
         <img
-          key={s.image}
+          key={`${s.image}-${idx}`}
           src={s.image}
-          alt={`${s.eyebrow} — ${s.title} ${s.accent}`}
+          alt={s.alt}
           width={1920}
           height={1152}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1400ms]"
@@ -149,13 +167,13 @@ function Hero() {
       />
       <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-5 pb-20 pt-32 lg:px-8 lg:pb-28">
         <div className="max-w-3xl">
-          <Eyebrow>{heroSlides[i].eyebrow}</Eyebrow>
+          <Eyebrow>{slides[i].eyebrow}</Eyebrow>
           <h1 className="mt-5 font-serif text-5xl leading-[0.95] tracking-tight md:text-7xl lg:text-[5.5rem]">
-            <span className="block">{heroSlides[i].title}</span>
-            <span className="block text-gold-gradient">{heroSlides[i].accent}</span>
+            <span className="block">{slides[i].title}</span>
+            <span className="block text-gold-gradient">{slides[i].accent}</span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-marble/85 md:text-lg">
-            {heroSlides[i].lead}
+            {slides[i].lead}
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Button
@@ -163,9 +181,9 @@ function Hero() {
               size="lg"
               className="bg-gradient-gold text-navy-deep hover:opacity-90 shadow-gold-glow"
             >
-              <Link to="/contact">
-                Book a Free Consultation <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
+              <a href={primaryHref}>
+                {primaryLabel} <ArrowRight className="ml-1 h-4 w-4 inline" />
+              </a>
             </Button>
             <Button
               asChild
@@ -173,11 +191,11 @@ function Hero() {
               variant="outline"
               className="border-gold-hairline bg-transparent text-marble hover:bg-marble/10"
             >
-              <Link to="/portfolio">View Portfolio</Link>
+              <a href={secondaryHref}>{secondaryLabel}</a>
             </Button>
           </div>
           <div className="mt-12 flex flex-wrap items-center gap-6 text-xs text-marble/60">
-            {heroSlides.map((_, idx) => (
+            {slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setI(idx)}
@@ -201,19 +219,27 @@ function Hero() {
   );
 }
 
-function VideoBand() {
+function VideoBand({ doc }: { doc: HomePageDoc | null }) {
+  const v = doc?.videoBand;
+  const eyebrow = v?.eyebrow ?? "Studio Walkthrough";
+  const titleText = v?.title ?? "A closer look at";
+  const accent = v?.accent ?? "how we build.";
+  const lead =
+    v?.lead ??
+    "Step inside a recent handover — the materials, the millwork and the finishing details that separate a house from a home.";
+  const embed = v?.youtubeEmbedUrl ?? "https://www.youtube-nocookie.com/embed/6stlCkUDG_s?rel=0";
   return (
     <Section tone="navy">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:items-center">
         <SectionHeading
-          eyebrow="Studio Walkthrough"
+          eyebrow={eyebrow}
           title={
             <>
-              A closer look at{" "}
-              <span className="text-gold-gradient">how we build.</span>
+              {titleText}{" "}
+              <span className="text-gold-gradient">{accent}</span>
             </>
           }
-          lead="Step inside a recent handover — the materials, the millwork and the finishing details that separate a house from a home."
+          lead={lead}
         />
         <div
           className="relative aspect-video overflow-hidden rounded-lg border-gold-hairline shadow-luxe"
@@ -221,7 +247,7 @@ function VideoBand() {
         >
           <iframe
             className="absolute inset-0 h-full w-full"
-            src="https://www.youtube-nocookie.com/embed/6stlCkUDG_s?rel=0"
+            src={embed}
             title="RK Interiors — Project Walkthrough"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
