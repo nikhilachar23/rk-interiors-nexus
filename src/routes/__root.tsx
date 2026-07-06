@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { WhatsappFab } from "@/components/site/whatsapp-fab";
+import { fetchSiteSettings, type SiteSettings } from "@/lib/sanity";
 
 function NotFoundComponent() {
   return (
