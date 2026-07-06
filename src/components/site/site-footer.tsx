@@ -45,14 +45,14 @@ export function SiteFooter() {
             </p>
             <div className="mt-6 flex gap-3">
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/rkinterior_____?utm_source=qr&igsh=NWt1NjNtdmpmcXVi"
                 aria-label="Instagram"
                 className="grid h-10 w-10 place-items-center rounded-full border-gold-hairline transition-colors hover:bg-gradient-gold hover:text-navy-deep"
               >
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/share/1B7TZHJMbH/"
                 aria-label="Facebook"
                 className="grid h-10 w-10 place-items-center rounded-full border-gold-hairline transition-colors hover:bg-gradient-gold hover:text-navy-deep"
               >
