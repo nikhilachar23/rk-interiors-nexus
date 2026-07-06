@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   Check,
@@ -22,8 +23,42 @@ import heroVilla from "@/assets/hero-villa.jpg";
 import tileBedroom from "@/assets/expertise-bedroom.jpg";
 import tileOffice from "@/assets/expertise-office.jpg";
 import tileWardrobe from "@/assets/expertise-wardrobe.jpg";
+import { fetchHomePage, type HomePage as HomePageDoc } from "@/lib/sanity";
+
+const ICONS: Record<string, typeof Ruler> = {
+  ruler: Ruler,
+  shield: ShieldCheck,
+  hammer: Hammer,
+  sparkles: Sparkles,
+  home: HomeIcon,
+  compass: Compass,
+  wrench: Wrench,
+  timer: Timer,
+  layers: Layers,
+  message: MessageCircle,
+};
+function iconFor(name: string | undefined, fallback: typeof Ruler) {
+  if (!name) return fallback;
+  return ICONS[name.toLowerCase()] ?? fallback;
+}
+
+function useHomeDoc() {
+  const { data } = useQuery({
+    queryKey: ["homePage"],
+    queryFn: fetchHomePage,
+    staleTime: 60_000,
+  });
+  return data ?? null;
+}
 
 export const Route = createFileRoute("/")({
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData({
+      queryKey: ["homePage"],
+      queryFn: fetchHomePage,
+      staleTime: 60_000,
+    });
+  },
   head: () => ({
     meta: [
       { title: "RK Interiors — Interior Design & Turnkey Construction in Bengaluru" },
@@ -69,35 +104,53 @@ const heroSlides = [
 ];
 
 function HomePage() {
+  const doc = useHomeDoc();
   return (
     <>
-      <Hero />
-      <VideoBand />
-      <Expertise />
-      <PackagesPreview />
-      <TurnkeySection />
-      <Process />
-      <WhyUs />
-      <Partners />
-      <CtaBand />
+      <Hero doc={doc} />
+      <VideoBand doc={doc} />
+      <Expertise doc={doc} />
+      <PackagesPreview doc={doc} />
+      <TurnkeySection doc={doc} />
+      <Process doc={doc} />
+      <WhyUs doc={doc} />
+      <Partners doc={doc} />
+      <CtaBand doc={doc} />
     </>
   );
 }
 
-function Hero() {
+function Hero({ doc }: { doc: HomePageDoc | null }) {
+  const slides =
+    doc?.heroSlides && doc.heroSlides.length > 0
+      ? doc.heroSlides.map((s, i) => ({
+          image: s.imageUrl ?? heroSlides[i % heroSlides.length].image,
+          eyebrow: s.eyebrow ?? "",
+          title: s.title ?? "",
+          accent: s.accent ?? "",
+          lead: s.lead ?? "",
+          alt: s.alt ?? `${s.eyebrow} — ${s.title} ${s.accent}`,
+        }))
+      : heroSlides.map((s) => ({ ...s, alt: `${s.eyebrow} — ${s.title} ${s.accent}` }));
+  const primaryLabel = doc?.heroPrimaryCtaLabel ?? "Book a Free Consultation";
+  const primaryHref = doc?.heroPrimaryCtaHref ?? "/contact";
+  const secondaryLabel = doc?.heroSecondaryCtaLabel ?? "View Portfolio";
+  const secondaryHref = doc?.heroSecondaryCtaHref ?? "/portfolio";
+
   const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % heroSlides.length), 6000);
+    if (slides.length <= 1) return;
+    const t = setInterval(() => setI((v) => (v + 1) % slides.length), 6000);
     return () => clearInterval(t);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="relative isolate min-h-[92vh] overflow-hidden text-marble">
-      {heroSlides.map((s, idx) => (
+      {slides.map((s, idx) => (
         <img
-          key={s.image}
+          key={`${s.image}-${idx}`}
           src={s.image}
-          alt={`${s.eyebrow} — ${s.title} ${s.accent}`}
+          alt={s.alt}
           width={1920}
           height={1152}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1400ms]"
@@ -114,13 +167,13 @@ function Hero() {
       />
       <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-5 pb-20 pt-32 lg:px-8 lg:pb-28">
         <div className="max-w-3xl">
-          <Eyebrow>{heroSlides[i].eyebrow}</Eyebrow>
+          <Eyebrow>{slides[i].eyebrow}</Eyebrow>
           <h1 className="mt-5 font-serif text-5xl leading-[0.95] tracking-tight md:text-7xl lg:text-[5.5rem]">
-            <span className="block">{heroSlides[i].title}</span>
-            <span className="block text-gold-gradient">{heroSlides[i].accent}</span>
+            <span className="block">{slides[i].title}</span>
+            <span className="block text-gold-gradient">{slides[i].accent}</span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-marble/85 md:text-lg">
-            {heroSlides[i].lead}
+            {slides[i].lead}
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Button
@@ -128,9 +181,9 @@ function Hero() {
               size="lg"
               className="bg-gradient-gold text-navy-deep hover:opacity-90 shadow-gold-glow"
             >
-              <Link to="/contact">
-                Book a Free Consultation <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
+              <a href={primaryHref}>
+                {primaryLabel} <ArrowRight className="ml-1 h-4 w-4 inline" />
+              </a>
             </Button>
             <Button
               asChild
@@ -138,11 +191,11 @@ function Hero() {
               variant="outline"
               className="border-gold-hairline bg-transparent text-marble hover:bg-marble/10"
             >
-              <Link to="/portfolio">View Portfolio</Link>
+              <a href={secondaryHref}>{secondaryLabel}</a>
             </Button>
           </div>
           <div className="mt-12 flex flex-wrap items-center gap-6 text-xs text-marble/60">
-            {heroSlides.map((_, idx) => (
+            {slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setI(idx)}
@@ -166,19 +219,27 @@ function Hero() {
   );
 }
 
-function VideoBand() {
+function VideoBand({ doc }: { doc: HomePageDoc | null }) {
+  const v = doc?.videoBand;
+  const eyebrow = v?.eyebrow ?? "Studio Walkthrough";
+  const titleText = v?.title ?? "A closer look at";
+  const accent = v?.accent ?? "how we build.";
+  const lead =
+    v?.lead ??
+    "Step inside a recent handover — the materials, the millwork and the finishing details that separate a house from a home.";
+  const embed = v?.youtubeEmbedUrl ?? "https://www.youtube-nocookie.com/embed/6stlCkUDG_s?rel=0";
   return (
     <Section tone="navy">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:items-center">
         <SectionHeading
-          eyebrow="Studio Walkthrough"
+          eyebrow={eyebrow}
           title={
             <>
-              A closer look at{" "}
-              <span className="text-gold-gradient">how we build.</span>
+              {titleText}{" "}
+              <span className="text-gold-gradient">{accent}</span>
             </>
           }
-          lead="Step inside a recent handover — the materials, the millwork and the finishing details that separate a house from a home."
+          lead={lead}
         />
         <div
           className="relative aspect-video overflow-hidden rounded-lg border-gold-hairline shadow-luxe"
@@ -186,7 +247,7 @@ function VideoBand() {
         >
           <iframe
             className="absolute inset-0 h-full w-full"
-            src="https://www.youtube-nocookie.com/embed/6stlCkUDG_s?rel=0"
+            src={embed}
             title="RK Interiors — Project Walkthrough"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -207,25 +268,41 @@ const expertiseTiles = [
   { title: "Walk-in Closets", copy: "Backlit glass, marble islands, brass trim.", image: tileWardrobe, to: "/interiors" },
 ] as const;
 
-function Expertise() {
+function Expertise({ doc }: { doc: HomePageDoc | null }) {
+  const e = doc?.expertise;
+  const tiles =
+    e?.tiles && e.tiles.length > 0
+      ? e.tiles.map((t, i) => ({
+          title: t.title ?? expertiseTiles[i % expertiseTiles.length].title,
+          copy: t.copy ?? "",
+          image: t.imageUrl ?? expertiseTiles[i % expertiseTiles.length].image,
+          to: t.linkHref ?? "/interiors",
+        }))
+      : expertiseTiles.map((t) => ({ ...t }));
+  const eyebrow = e?.eyebrow ?? "Our Expertise";
+  const titleText = e?.title ?? "Six disciplines,";
+  const accent = e?.accent ?? "one accountable studio.";
+  const lead =
+    e?.lead ??
+    "Design, engineering, procurement and site — coordinated by a single project lead so nothing falls between briefs.";
   return (
     <Section tone="marble">
       <SectionHeading
         center
-        eyebrow="Our Expertise"
+        eyebrow={eyebrow}
         title={
           <>
-            Six disciplines,{" "}
-            <span className="text-gold-gradient">one accountable studio.</span>
+            {titleText}{" "}
+            <span className="text-gold-gradient">{accent}</span>
           </>
         }
-        lead="Design, engineering, procurement and site — coordinated by a single project lead so nothing falls between briefs."
+        lead={lead}
       />
       <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {expertiseTiles.map((t) => (
-          <Link
+        {tiles.map((t) => (
+          <a
             key={t.title}
-            to={t.to}
+            href={t.to}
             className="group relative overflow-hidden rounded-lg border border-border bg-card hover-elevate"
           >
             <div className="relative aspect-[4/5] overflow-hidden">
@@ -252,7 +329,7 @@ function Expertise() {
                 </span>
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
     </Section>
@@ -301,22 +378,39 @@ const packages = [
   },
 ];
 
-function PackagesPreview() {
+function PackagesPreview({ doc }: { doc: HomePageDoc | null }) {
+  const p = doc?.packagesPreview;
+  const items =
+    p?.items && p.items.length > 0
+      ? p.items.map((it, i) => ({
+          name: it.name ?? packages[i % packages.length].name,
+          price: it.price ?? "",
+          tag: it.tag ?? "",
+          highlighted: Boolean(it.highlighted),
+          features: it.features ?? [],
+        }))
+      : packages;
+  const eyebrow = p?.eyebrow ?? "Our Packages";
+  const titleText = p?.title ?? "Transparent pricing.";
+  const accent = p?.accent ?? "No surprises on site.";
+  const lead =
+    p?.lead ??
+    "Every package includes design, materials, execution and a written warranty. Choose the finish level — we own the timeline.";
   return (
     <Section tone="navy">
       <SectionHeading
         center
-        eyebrow="Our Packages"
+        eyebrow={eyebrow}
         title={
           <>
-            Transparent pricing.{" "}
-            <span className="text-gold-gradient">No surprises on site.</span>
+            {titleText}{" "}
+            <span className="text-gold-gradient">{accent}</span>
           </>
         }
-        lead="Every package includes design, materials, execution and a written warranty. Choose the finish level — we own the timeline."
+        lead={lead}
       />
       <div className="mt-16 grid gap-6 lg:grid-cols-3">
-        {packages.map((p) => (
+        {items.map((p) => (
           <div
             key={p.name}
             className={`relative flex flex-col rounded-lg border p-8 transition-all ${
@@ -367,13 +461,34 @@ function PackagesPreview() {
   );
 }
 
-function TurnkeySection() {
+function TurnkeySection({ doc }: { doc: HomePageDoc | null }) {
+  const t = doc?.turnkey;
+  const eyebrow = t?.eyebrow ?? "End-to-End Home Construction";
+  const titleText = t?.title ?? "From blueprints to";
+  const accent = t?.accent ?? "the day you receive the keys.";
+  const lead =
+    t?.lead ??
+    "One contract, one project lead, one warranty. We handle architecture, structural design, statutory approvals, MEP, civil, interiors, landscape and handover — sequenced so the site keeps moving and the budget doesn't.";
+  const image = t?.imageUrl ?? heroVilla;
+  const stepsList =
+    t?.steps && t.steps.length > 0
+      ? t.steps.map((s) => ({
+          icon: iconFor(s.icon, Ruler),
+          title: s.title ?? "",
+          body: s.body ?? "",
+        }))
+      : [
+          { icon: Ruler, title: "Design & Planning", body: "Site study, 3D concepts, working drawings and BOQ." },
+          { icon: ShieldCheck, title: "Approvals", body: "BBMP, BDA, BWSSB, BESCOM — filed and tracked." },
+          { icon: Hammer, title: "Civil & Structure", body: "RCC, masonry, plumbing, electrical, HVAC." },
+          { icon: Sparkles, title: "Finishes & Handover", body: "Flooring, joinery, painting, snagging, keys." },
+        ];
   return (
     <Section tone="marble">
       <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <div className="relative overflow-hidden rounded-lg border-gold-hairline shadow-luxe">
           <img
-            src={heroVilla}
+            src={image}
             alt="RK Interiors turnkey home construction — contemporary villa in Bengaluru"
             loading="lazy"
             width={1920}
@@ -383,22 +498,17 @@ function TurnkeySection() {
         </div>
         <div>
           <SectionHeading
-            eyebrow="End-to-End Home Construction"
+            eyebrow={eyebrow}
             title={
               <>
-                From blueprints to{" "}
-                <span className="text-gold-gradient">the day you receive the keys.</span>
+                {titleText}{" "}
+                <span className="text-gold-gradient">{accent}</span>
               </>
             }
-            lead="One contract, one project lead, one warranty. We handle architecture, structural design, statutory approvals, MEP, civil, interiors, landscape and handover — sequenced so the site keeps moving and the budget doesn't."
+            lead={lead}
           />
           <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-            {[
-              { icon: Ruler, title: "Design & Planning", body: "Site study, 3D concepts, working drawings and BOQ." },
-              { icon: ShieldCheck, title: "Approvals", body: "BBMP, BDA, BWSSB, BESCOM — filed and tracked." },
-              { icon: Hammer, title: "Civil & Structure", body: "RCC, masonry, plumbing, electrical, HVAC." },
-              { icon: Sparkles, title: "Finishes & Handover", body: "Flooring, joinery, painting, snagging, keys." },
-            ].map((s) => (
+            {stepsList.map((s) => (
               <li key={s.title} className="flex gap-4 rounded-lg border border-border bg-card p-5">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-gradient-gold text-navy-deep">
                   <s.icon className="h-5 w-5" />
@@ -423,21 +533,34 @@ const steps = [
   { n: "04", title: "Handover", body: "Snagging, deep-clean, keys — and a written warranty that keeps us on your speed dial.", icon: HomeIcon },
 ];
 
-function Process() {
+function Process({ doc }: { doc: HomePageDoc | null }) {
+  const p = doc?.process;
+  const eyebrow = p?.eyebrow ?? "Our Process";
+  const titleText = p?.title ?? "A single, disciplined journey —";
+  const accent = p?.accent ?? "from first sketch to final key.";
+  const stepsList =
+    p?.steps && p.steps.length > 0
+      ? p.steps.map((s, i) => ({
+          n: s.number ?? String(i + 1).padStart(2, "0"),
+          title: s.title ?? "",
+          body: s.body ?? "",
+          icon: iconFor(s.icon, MessageCircle),
+        }))
+      : steps;
   return (
     <Section tone="navy">
       <SectionHeading
         center
-        eyebrow="Our Process"
+        eyebrow={eyebrow}
         title={
           <>
-            A single, disciplined journey —{" "}
-            <span className="text-gold-gradient">from first sketch to final key.</span>
+            {titleText}{" "}
+            <span className="text-gold-gradient">{accent}</span>
           </>
         }
       />
       <ol className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s) => (
+        {stepsList.map((s) => (
           <li
             key={s.n}
             className="relative rounded-lg border border-white/10 bg-white/[0.03] p-7 text-marble"
@@ -460,20 +583,32 @@ const values = [
   { title: "Professional Execution", body: "Directly employed project leads, not sub-contracted supervisors.", icon: Hammer },
 ];
 
-function WhyUs() {
+function WhyUs({ doc }: { doc: HomePageDoc | null }) {
+  const w = doc?.whyUs;
+  const eyebrow = w?.eyebrow ?? "Why RK Interiors";
+  const titleText = w?.title ?? "Four promises we";
+  const accent = w?.accent ?? "stake our name on.";
+  const items =
+    w?.values && w.values.length > 0
+      ? w.values.map((v) => ({
+          title: v.title ?? "",
+          body: v.body ?? "",
+          icon: iconFor(v.icon, Layers),
+        }))
+      : values;
   return (
     <Section tone="marble">
       <SectionHeading
-        eyebrow="Why RK Interiors"
+        eyebrow={eyebrow}
         title={
           <>
-            Four promises we{" "}
-            <span className="text-gold-gradient">stake our name on.</span>
+            {titleText}{" "}
+            <span className="text-gold-gradient">{accent}</span>
           </>
         }
       />
       <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {values.map((v) => (
+        {items.map((v) => (
           <div key={v.title} className="hover-elevate rounded-lg border border-border bg-card p-7">
             <span className="grid h-12 w-12 place-items-center rounded-md bg-gradient-gold text-navy-deep">
               <v.icon className="h-5 w-5" />
@@ -492,13 +627,16 @@ const partners = [
   "Greenlam", "Merino", "Century Ply", "Saint-Gobain", "Philips", "Legrand",
 ];
 
-function Partners() {
+function Partners({ doc }: { doc: HomePageDoc | null }) {
+  const label = doc?.partners?.label ?? "Trusted Materials · Trusted Partners";
+  const names =
+    doc?.partners?.names && doc.partners.names.length > 0 ? doc.partners.names : partners;
   return (
     <section className="border-y border-white/10 bg-navy-deep py-14 text-marble">
-      <p className="eyebrow text-center text-gold-gradient">Trusted Materials · Trusted Partners</p>
+      <p className="eyebrow text-center text-gold-gradient">{label}</p>
       <div className="mt-8 overflow-hidden">
         <div className="flex w-max animate-marquee gap-14 px-8">
-          {[...partners, ...partners].map((p, idx) => (
+          {[...names, ...names].map((p, idx) => (
             <span
               key={`${p}-${idx}`}
               className="font-serif text-2xl tracking-wide text-marble/50 hover:text-gold"
@@ -512,7 +650,18 @@ function Partners() {
   );
 }
 
-function CtaBand() {
+function CtaBand({ doc }: { doc: HomePageDoc | null }) {
+  const c = doc?.ctaBand;
+  const eyebrow = c?.eyebrow ?? "Ready when you are";
+  const titleText = c?.title ?? "Let's design a home that";
+  const accent = c?.accent ?? "feels unmistakably yours.";
+  const lead =
+    c?.lead ??
+    "A 30-minute discovery call with Vedu — no obligation, no cost. Bring your floor plan or just an idea; we'll take it from there.";
+  const primaryLabel = c?.primaryCtaLabel ?? "Book a call";
+  const primaryHref = c?.primaryCtaHref ?? "/contact";
+  const secondaryLabel = c?.secondaryCtaLabel ?? "Call Vedu";
+  const secondaryHref = c?.secondaryCtaHref ?? "tel:+919538772060";
   return (
     <Section tone="marble" className="pt-24">
       <div className="relative overflow-hidden rounded-2xl bg-gradient-navy p-10 text-marble shadow-luxe md:p-16">
@@ -522,19 +671,18 @@ function CtaBand() {
         />
         <div className="relative grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
           <div>
-            <Eyebrow>Ready when you are</Eyebrow>
+            <Eyebrow>{eyebrow}</Eyebrow>
             <h2 className="mt-4 font-serif text-4xl md:text-5xl">
-              Let's design a home that{" "}
-              <span className="text-gold-gradient">feels unmistakably yours.</span>
+              {titleText}{" "}
+              <span className="text-gold-gradient">{accent}</span>
             </h2>
             <p className="mt-4 max-w-xl text-marble/75">
-              A 30-minute discovery call with Vedu — no obligation, no cost. Bring your floor plan
-              or just an idea; we'll take it from there.
+              {lead}
             </p>
           </div>
           <div className="flex flex-wrap gap-3 md:justify-end">
             <Button asChild size="lg" className="bg-gradient-gold text-navy-deep hover:opacity-90">
-              <Link to="/contact">Book a call</Link>
+              <a href={primaryHref}>{primaryLabel}</a>
             </Button>
             <Button
               asChild
@@ -542,7 +690,7 @@ function CtaBand() {
               variant="outline"
               className="border-gold-hairline bg-transparent text-marble hover:bg-marble/10"
             >
-              <a href="tel:+919538772060">Call Vedu</a>
+              <a href={secondaryHref}>{secondaryLabel}</a>
             </Button>
           </div>
         </div>

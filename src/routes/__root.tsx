@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { WhatsappFab } from "@/components/site/whatsapp-fab";
+import { fetchSiteSettings, type SiteSettings } from "@/lib/sanity";
 
 function NotFoundComponent() {
   return (
@@ -76,52 +77,72 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
+  loader: async ({ context }) => {
+    const settings = await context.queryClient.ensureQueryData({
+      queryKey: ["siteSettings"],
+      queryFn: fetchSiteSettings,
+      staleTime: 60_000,
+    });
+    return { settings } as { settings: SiteSettings | null };
+  },
+  head: ({ loaderData }) => {
+    const s = loaderData?.settings ?? null;
+    const siteName = s?.brandName ?? "RK Interiors";
+    const title =
+      s?.seo?.metaTitle ?? "RK Interiors — Redefining Spaces, Enriching Lives";
+    const description =
+      s?.seo?.metaDescription ??
+      "RK Interiors designs and builds premium homes, modular kitchens, offices and commercial spaces. Turnkey construction and interior design with custom design, quality assured, on-time delivery.";
+    const ogImage = s?.seo?.ogImageUrl;
+    const gaId = s?.analytics?.googleAnalyticsId?.trim();
+    const gtmId = s?.analytics?.googleTagManagerId?.trim();
+    const gsv = s?.analytics?.googleSiteVerification?.trim();
+    const customHead = s?.analytics?.customHeadHtml?.trim();
+    const faviconHref = s?.faviconUrl ?? "/favicon.ico";
+
+    const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "RK Interiors — Redefining Spaces, Enriching Lives" },
-      {
-        name: "description",
-        content:
-          "RK Interiors designs and builds premium homes, modular kitchens, offices and commercial spaces. Turnkey construction and interior design with custom design, quality assured, on-time delivery.",
-      },
-      { name: "author", content: "RK Interiors" },
+      { title },
+      { name: "description", content: description },
+      { name: "author", content: siteName },
       { name: "theme-color", content: "#0b1224" },
-      { property: "og:site_name", content: "RK Interiors" },
-      { property: "og:title", content: "RK Interiors — Redefining Spaces, Enriching Lives" },
-      {
-        property: "og:description",
-        content:
-          "Premium interior design and turnkey construction — homes, kitchens, offices and commercial spaces.",
-      },
+      { property: "og:site_name", content: siteName },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+    ];
+    if (gsv) meta.push({ name: "google-site-verification", content: gsv });
+    if (s?.seo?.keywords?.length) {
+      meta.push({ name: "keywords", content: s.seo.keywords.join(", ") });
+    }
+    if (ogImage) {
+      meta.push({ property: "og:image", content: ogImage });
+      meta.push({ name: "twitter:image", content: ogImage });
+    }
+
+    const links: Array<Record<string, string>> = [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: faviconHref },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&display=swap",
       },
-    ],
-    scripts: [
+    ];
+
+    const scripts: Array<Record<string, unknown>> = [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          name: "RK Interiors",
-          description:
-            "Premium interior design and turnkey home construction — homes, modular kitchens, offices and commercial spaces.",
-          image: "/rk-social.jpg",
-          telephone: ["+91-9538772060", "+91-7892656285"],
+          name: siteName,
+          description,
+          image: ogImage ?? "/rk-social.jpg",
+          telephone: [s?.primaryPhone, s?.secondaryPhone].filter(Boolean),
           priceRange: "₹₹₹",
           areaServed: "Bengaluru, Karnataka, India",
           address: {
@@ -131,17 +152,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             addressCountry: "IN",
           },
           founder: { "@type": "Person", name: "Vedu" },
-          makesOffer: [
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Interior Design" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Modular Kitchens" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Turnkey Home Construction" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Office Fit-outs" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Renovations" } },
-          ],
         }),
       },
-    ],
-  }),
+    ];
+    if (gtmId) {
+      scripts.push({
+        children: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`,
+      });
+    }
+    if (gaId) {
+      scripts.push({
+        src: `https://www.googletagmanager.com/gtag/js?id=${gaId}`,
+        async: true,
+      });
+      scripts.push({
+        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaId}');`,
+      });
+    }
+    if (customHead) {
+      scripts.push({ children: customHead });
+    }
+
+    return { meta, links, scripts };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -174,7 +207,29 @@ function RootComponent() {
         </main>
         <SiteFooter />
         <WhatsappFab />
+        <GtmNoScript />
       </div>
     </QueryClientProvider>
+  );
+}
+
+function GtmNoScript() {
+  const { data: settings } = useQuery({
+    queryKey: ["siteSettings"],
+    queryFn: fetchSiteSettings,
+    staleTime: 60_000,
+  });
+  const gtmId = settings?.analytics?.googleTagManagerId?.trim();
+  if (!gtmId) return null;
+  return (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+        height="0"
+        width="0"
+        style={{ display: "none", visibility: "hidden" }}
+        title="gtm"
+      />
+    </noscript>
   );
 }
