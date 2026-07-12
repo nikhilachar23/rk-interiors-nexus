@@ -18,11 +18,11 @@ export const Route = createFileRoute("/packages")({
 });
 
 const packages = [
-  { name: "Essential", price: "From ₹1,499 / sq ft", timeline: "45–60 working days", warranty: "5-year written warranty",
+  { name: "Standard", price: "From ₹1,499 / sq ft", timeline: "45–60 working days", warranty: "5-year warranty",
     features: ["710-grade BWP ply carcasses, 1mm laminate finish", "Modular kitchen with soft-close hardware", "3 wardrobes, TV unit, foyer console, crockery unit", "False ceiling & profile lighting — living, dining, bedrooms", "Painting (Asian Paints Royale) — full home", "Sanitary & plumbing fixtures — Jaquar / Kohler"] },
-  { name: "Premium", price: "From ₹1,999 / sq ft", timeline: "60–90 working days", warranty: "10-year written warranty", highlighted: true,
+  { name: "Premium", price: "From ₹1,999 / sq ft", timeline: "60–90 working days", warranty: "15-year warranty", highlighted: true,
     features: ["Everything in Essential", "Acrylic / PU shutters, edge-banded finishes", "Full-home lighting design + smart controls", "Marble-look quartz counters, brass hardware", "Wallpapers, curtains, drapes, blinds", "Designer sanitaryware + digital shower systems"] },
-  { name: "Luxe", price: "Bespoke — on request", timeline: "90–150 working days", warranty: "Lifetime service partnership",
+  { name: "Luxury", price: "Bespoke — on request", timeline: "90–150 working days", warranty: "Lifetime service partnership",
     features: ["Everything in Premium", "Imported veneers, natural stone, statement lighting", "Custom joinery, wall panelling, ceiling detailing", "3D visualisation + material library sessions", "Dedicated project lead + on-site supervisor", "White-glove handover with styling & art curation"] },
 ];
 
