@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
-const RECIPIENT = "nikhilc.achar23@gmail.com";
+const RECIPIENT = "vedaraj.vedu@gmail.com";
 
 const enquirySchema = z.object({
   name: z.string().trim().min(1).max(100),
