@@ -23,6 +23,8 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   return (
     <>
       <header className="navy-surface text-marble">
@@ -49,35 +51,69 @@ function ContactPage() {
             ) : (
               <form
                 className="mt-8 grid gap-5"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  setSent(true);
+                  if (submitting) return;
+                  setError(null);
+                  const form = e.currentTarget;
+                  const fd = new FormData(form);
+                  const payload = {
+                    name: String(fd.get("name") ?? ""),
+                    phone: String(fd.get("phone") ?? ""),
+                    email: String(fd.get("email") ?? ""),
+                    scope: String(fd.get("scope") ?? ""),
+                    message: String(fd.get("message") ?? ""),
+                  };
+                  setSubmitting(true);
+                  try {
+                    const res = await fetch("/api/public/enquiry", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(payload),
+                    });
+                    if (!res.ok) {
+                      const body = await res.json().catch(() => ({}));
+                      throw new Error(body?.error ?? "Failed to send");
+                    }
+                    setSent(true);
+                  } catch (err) {
+                    setError(
+                      err instanceof Error
+                        ? err.message
+                        : "Something went wrong. Please try WhatsApp.",
+                    );
+                  } finally {
+                    setSubmitting(false);
+                  }
                 }}
               >
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <Label htmlFor="name">Full name</Label>
-                    <Input id="name" required placeholder="Your name" className="mt-2" />
+                    <Input id="name" name="name" required placeholder="Your name" className="mt-2" />
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" required type="tel" placeholder="+91 98765 43210" className="mt-2" />
+                    <Input id="phone" name="phone" required type="tel" placeholder="+91 98765 43210" className="mt-2" />
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="you@example.com" className="mt-2" />
+                  <Input id="email" name="email" type="email" placeholder="you@example.com" className="mt-2" />
                 </div>
                 <div>
                   <Label htmlFor="scope">What are you planning?</Label>
-                  <Input id="scope" placeholder="e.g. 3BHK interiors, modular kitchen, villa build" className="mt-2" />
+                  <Input id="scope" name="scope" placeholder="e.g. 3BHK interiors, modular kitchen, villa build" className="mt-2" />
                 </div>
                 <div>
                   <Label htmlFor="message">A little about your project</Label>
-                  <Textarea id="message" rows={5} placeholder="Site location, budget range, timeline…" className="mt-2" />
+                  <Textarea id="message" name="message" rows={5} placeholder="Site location, budget range, timeline…" className="mt-2" />
                 </div>
-                <Button type="submit" size="lg" className="bg-gradient-gold text-navy-deep hover:opacity-90">
-                  <Send className="h-4 w-4" /> Send project brief
+                {error && (
+                  <p className="text-sm text-destructive" role="alert">{error}</p>
+                )}
+                <Button type="submit" size="lg" disabled={submitting} className="bg-gradient-gold text-navy-deep hover:opacity-90">
+                  <Send className="h-4 w-4" /> {submitting ? "Sending…" : "Send project brief"}
                 </Button>
               </form>
             )}
