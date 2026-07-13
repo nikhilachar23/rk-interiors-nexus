@@ -79,7 +79,7 @@ export const Route = createFileRoute("/api/public/enquiry")({
             Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({
-            from: "RK Interiors Enquiry <onboarding@resend.dev>",
+            from: "RK Interiors Enquiry <enquiry@rkinterio.com>",
             to: [RECIPIENT],
             reply_to: email || undefined,
             subject: `New enquiry — ${name}${scope ? ` (${scope})` : ""}`,
