@@ -6,6 +6,7 @@ import rkLogo from "@/assets/rk-gold.png";
 
 const links = [
   { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
   { to: "/construction", label: "Construction" },
   { to: "/interiors", label: "Interiors" },
   { to: "/packages", label: "Packages" },
