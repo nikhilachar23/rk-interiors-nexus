@@ -61,17 +61,17 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "RK Interiors — Interior Design & Turnkey Construction in Bengaluru" },
+      { title: "RK Interiors (Vedu) — Interior Design & Turnkey Construction in Bengaluru" },
       {
         name: "description",
         content:
-          "Award-worthy interior design and turnkey home construction across Bengaluru — modular kitchens, luxury homes, office fit-outs and renovations by RK Interiors.",
+          "RK Interiors — also known as Interiors by Vedu — is a Bengaluru-based interior design and turnkey construction firm trusted for work inside Sattva, Prestige, Godrej and Sobha apartments, 4BHK & 5BHK villas across Whitefield, Kanakapura Road and Devanahalli, and commercial fit-outs like Just Bake, jewellery and mobile showrooms.",
       },
-      { property: "og:title", content: "RK Interiors — Interior Design & Turnkey Construction" },
+      { property: "og:title", content: "RK Interiors (Vedu) — Interior Design & Turnkey Construction in Bangalore" },
       {
         property: "og:description",
         content:
-          "Custom designs, quality assured, on-time delivery. RK Interiors builds premium homes, kitchens and workspaces in Bengaluru.",
+          "Also known as Interiors by Vedu. Turnkey interiors and villa construction in Bangalore — Sattva, Prestige, Godrej, Sobha apartments, 4BHK/5BHK villas and commercial showrooms.",
       },
       { property: "og:url", content: "/" },
     ],
