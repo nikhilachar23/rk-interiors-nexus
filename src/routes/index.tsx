@@ -114,6 +114,7 @@ function HomePage() {
       <TurnkeySection doc={doc} />
       <Process doc={doc} />
       <WhyUs doc={doc} />
+      <Areas />
       <Partners doc={doc} />
       <CtaBand doc={doc} />
     </>
