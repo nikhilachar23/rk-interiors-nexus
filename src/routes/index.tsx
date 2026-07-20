@@ -176,6 +176,10 @@ function Hero({ doc }: { doc: HomePageDoc | null }) {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-marble/85 md:text-lg">
             {slides[i].lead}
           </p>
+          <p className="mt-4 max-w-xl text-sm text-marble/70">
+            Also known as <span className="text-gold">Interiors by Vedu</span> — trusted for
+            work inside Sattva, Prestige, Godrej and Sobha apartments across Bengaluru.
+          </p>
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Button
               asChild
