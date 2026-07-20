@@ -29,7 +29,7 @@ export const Route = createFileRoute("/portfolio")({
   component: PortfolioPage,
 });
 
-const cats = ["All", "Residential", "Commercial", "Kitchen", "Office"] as const;
+const cats = ["All", "Apartments", "Villas", "Commercial", "Kitchens"] as const;
 
 function PortfolioPage() {
   const { data } = useSuspenseQuery(portfolioQuery);
