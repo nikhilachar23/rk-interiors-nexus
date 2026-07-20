@@ -89,10 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const s = loaderData?.settings ?? null;
     const siteName = s?.brandName ?? "RK Interiors";
     const title =
-      s?.seo?.metaTitle ?? "RK Interiors — Redefining Spaces, Enriching Lives";
+      s?.seo?.metaTitle ?? "RK Interiors (Vedu) — Interior Design & Turnkey Construction in Bengaluru";
     const description =
       s?.seo?.metaDescription ??
-      "RK Interiors designs and builds premium homes, modular kitchens, offices and commercial spaces. Turnkey construction and interior design with custom design, quality assured, on-time delivery.";
+      "RK Interiors — also known as Interiors by Vedu — designs and builds premium homes, modular kitchens, villas and commercial spaces across Bengaluru. Trusted for work inside Sattva, Prestige, Godrej and Sobha apartments.";
     const ogImage = s?.seo?.ogImageUrl;
     const gaId = s?.analytics?.googleAnalyticsId?.trim();
     const gtmId = s?.analytics?.googleTagManagerId?.trim();
@@ -138,20 +138,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
+          "@type": "HomeAndConstructionBusiness",
           name: siteName,
+          alternateName: ["Interiors by Vedu", "RK Interiors Bengaluru"],
           description,
           image: ogImage ?? "/rk-social.jpg",
-          telephone: [s?.primaryPhone, s?.secondaryPhone].filter(Boolean),
-          priceRange: "₹₹₹",
-          areaServed: "Bengaluru, Karnataka, India",
+          url: "https://www.rkinterio.com/",
+          telephone: [s?.primaryPhone ?? "+91-9538772060", s?.secondaryPhone ?? "+91-7892656285"],
+          email: s?.email ?? "vedaraj.vedu@gmail.com",
+          priceRange: "₹1,499–₹1,999+ / sq ft",
+          areaServed: [
+            "Bengaluru", "Bangalore", "Whitefield", "Kanakapura Road", "Bannerghatta Road",
+            "Marathahalli", "KR Puram Road", "Airport Road", "Devanahalli", "Magadi Road",
+            "Tumkur Road", "Mysore Road", "Rajajinagar", "Jayanagar", "Banashankari", "Karnataka",
+          ],
+          sameAs: [
+            s?.instagramUrl ?? "https://www.instagram.com/rkinterior_____",
+            s?.facebookUrl ?? "https://www.facebook.com/share/1B7TZHJMbH/",
+            "https://wa.me/919538772060",
+          ],
           address: {
             "@type": "PostalAddress",
             addressLocality: "Bengaluru",
             addressRegion: "Karnataka",
             addressCountry: "IN",
           },
-          founder: { "@type": "Person", name: "Vedu" },
+          founder: { "@type": "Person", name: "Vedu (Vedhachar)" },
         }),
       },
     ];
