@@ -29,7 +29,7 @@ export const Route = createFileRoute("/portfolio")({
   component: PortfolioPage,
 });
 
-const cats = ["All", "Residential", "Commercial", "Kitchen", "Office"] as const;
+const cats = ["All", "Apartments", "Villas", "Commercial", "Kitchens"] as const;
 
 function PortfolioPage() {
   const { data } = useSuspenseQuery(portfolioQuery);
@@ -48,8 +48,9 @@ function PortfolioPage() {
             Handovers we're <span className="text-gold-gradient">proud to sign.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-marble/80 md:text-lg">
-            A selection of completed projects across Bengaluru — homes, kitchens, offices and
-            commercial spaces. Filter by category to see the range.
+            Real projects completed by Vedu (Interiors by Vedu) — apartments inside Sattva, Prestige,
+            Godrej, Sobha, DX Max and BDA, 4BHK &amp; 5BHK villas across Bengaluru, plus Just Bake
+            outlets, jewellery showrooms and mobile showrooms. Filter by category to see the range.
           </p>
         </div>
       </header>

@@ -25,7 +25,7 @@ export interface PortfolioProject {
   mainImage: string;
   gallery?: string[];
   videoUrl?: string;
-  category: "Residential" | "Commercial" | "Kitchen" | "Office";
+  category: string;
   location?: string;
   dateCompleted?: string;
 }
