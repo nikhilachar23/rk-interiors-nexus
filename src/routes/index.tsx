@@ -623,6 +623,51 @@ function WhyUs({ doc }: { doc: HomePageDoc | null }) {
   );
 }
 
+const AREAS: Array<{ name: string; blurb: string }> = [
+  { name: "Whitefield", blurb: "Multiple 4BHK and 5BHK villa interiors delivered in and around Whitefield — from modular kitchens to full turnkey builds." },
+  { name: "Kanakapura Road", blurb: "Villa construction and interior design work completed for homeowners along Kanakapura Road, including a 5BHK ground-up build." },
+  { name: "Bannerghatta Road", blurb: "Villa interiors along Bannerghatta Road — kitchens, wardrobes, ceilings and painting, coordinated over weekly site reviews." },
+  { name: "Marathahalli", blurb: "Turnkey villa interior work in Marathahalli covering modular kitchens, wardrobes and full false ceiling with lighting." },
+  { name: "KR Puram Road", blurb: "Villa construction on KR Puram Road, handled end-to-end from civil to interior handover." },
+  { name: "Airport Road", blurb: "Modern villa interiors along Airport Road with open kitchens and marble-look living areas." },
+  { name: "Devanahalli", blurb: "Contemporary villa projects near the airport — structural design, stone cladding and joinery delivered turnkey." },
+  { name: "Magadi Road", blurb: "Family-friendly villa interiors along Magadi Road with durable finishes and practical modular kitchens." },
+  { name: "Tumkur Road", blurb: "Villa construction on Tumkur Road with a focus on tight budget control and clean finishes." },
+  { name: "Mysore Road", blurb: "Villa interior design along Mysore Road — kitchens, wardrobes, ceilings and painting under one contract." },
+  { name: "Rajajinagar", blurb: "Commercial fit-outs in Rajajinagar including a jewellery showroom and a mobile showroom." },
+  { name: "Jayanagar", blurb: "Jewellery and mobile showroom interior design in Jayanagar with premium lighting and display units." },
+  { name: "Banashankari", blurb: "Complete jewellery showroom interior work in Banashankari — reception, seating, display and back office." },
+];
+
+function Areas() {
+  return (
+    <Section tone="marble">
+      <SectionHeading
+        center
+        eyebrow="Areas We Work In"
+        title={
+          <>
+            Interior designer and villa contractor{" "}
+            <span className="text-gold-gradient">across Bangalore.</span>
+          </>
+        }
+        lead="Vedu and the RK Interiors team have delivered real projects across Bengaluru and other parts of Karnataka. A few of the areas we work in most:"
+      />
+      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {AREAS.map((a) => (
+          <article key={a.name} className="rounded-lg border border-border bg-card p-6 hover-elevate">
+            <h3 className="font-serif text-xl">{a.name}, Bengaluru</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{a.blurb}</p>
+            <Link to="/portfolio" className="mt-3 inline-flex items-center gap-1 text-xs uppercase tracking-widest text-gold">
+              See projects <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </article>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
 const partners = [
   "Hettich", "Blum", "Häfele", "Kohler", "Jaquar", "Asian Paints",
   "Greenlam", "Merino", "Century Ply", "Saint-Gobain", "Philips", "Legrand",
