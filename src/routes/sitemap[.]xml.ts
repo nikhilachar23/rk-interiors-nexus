@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { portfolioSeed } from "@/lib/portfolio-seed";
-import { fetchPortfolio } from "@/lib/sanity";
 
-const BASE_URL = "";
+const BASE_URL = "https://www.rkinterio.com";
 
 interface SitemapEntry {
   path: string;
@@ -29,17 +27,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const dynamic = (await fetchPortfolio()) ?? portfolioSeed;
-        const entries: SitemapEntry[] = [
-          ...STATIC,
-          ...dynamic.map((p) => ({
-            path: `/portfolio#${p.slug}`,
-            changefreq: "monthly" as const,
-            priority: "0.6",
-            lastmod: p.dateCompleted,
-          })),
-        ];
-        const urls = entries
+        const urls = STATIC
           .map((e) =>
             [
               "  <url>",
