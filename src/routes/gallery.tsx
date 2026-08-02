@@ -17,9 +17,9 @@ export const Route = createFileRoute("/gallery")({
       { name: "description", content: "A high-resolution gallery of interior design, modular kitchen, wardrobe, bath and construction projects delivered by RK Interiors in Bengaluru." },
       { property: "og:title", content: "Gallery | RK Interiors" },
       { property: "og:description", content: "High-resolution project imagery — homes, kitchens, wardrobes, baths and workspaces." },
-      { property: "og:url", content: "/gallery" },
+      { property: "og:url", content: "https://www.rkinterio.com/gallery" },
     ],
-    links: [{ rel: "canonical", href: "/gallery" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/gallery" }],
   }),
   component: GalleryPage,
 });

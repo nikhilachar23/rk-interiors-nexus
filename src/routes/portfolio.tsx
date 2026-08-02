@@ -29,9 +29,9 @@ export const Route = createFileRoute("/portfolio")({
       { name: "description", content: "A selection of completed residential, commercial, kitchen and office projects by RK Interiors — filterable by category." },
       { property: "og:title", content: "Portfolio — Completed Projects | RK Interiors" },
       { property: "og:description", content: "Filterable gallery of residential, commercial, kitchen and office projects." },
-      { property: "og:url", content: "/portfolio" },
+      { property: "og:url", content: "https://www.rkinterio.com/portfolio" },
     ],
-    links: [{ rel: "canonical", href: "/portfolio" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/portfolio" }],
   }),
   loader: ({ context }) => {
     context.queryClient.ensureQueryData(portfolioQuery);

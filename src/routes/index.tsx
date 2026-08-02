@@ -73,8 +73,9 @@ export const Route = createFileRoute("/")({
         content:
           "Also known as Interiors by Vedu. Turnkey interiors and villa construction in Bangalore — Sattva, Prestige, Godrej, Sobha apartments, 4BHK/5BHK villas and commercial showrooms.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://www.rkinterio.com/" },
     ],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/" }],
   }),
   component: HomePage,
 });

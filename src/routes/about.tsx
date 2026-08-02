@@ -19,9 +19,9 @@ export const Route = createFileRoute("/about")({
         content:
           "Meet Vedu — interior designer and turnkey construction contractor behind RK Interiors (also known as Interiors by Vedu). 150+ homes and spaces delivered across Bengaluru.",
       },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: "https://www.rkinterio.com/about" },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/about" }],
   }),
   component: AboutPage,
 });

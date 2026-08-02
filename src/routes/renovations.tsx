@@ -12,9 +12,9 @@ export const Route = createFileRoute("/renovations")({
       { name: "description", content: "Residential and commercial renovation specialists in Bengaluru — structural retrofits, façade overhauls, layout re-plans and modernisation projects by RK Interiors." },
       { property: "og:title", content: "Home & Commercial Renovations | RK Interiors" },
       { property: "og:description", content: "Structural retrofits, layout re-plans and full modernisation projects." },
-      { property: "og:url", content: "/renovations" },
+      { property: "og:url", content: "https://www.rkinterio.com/renovations" },
     ],
-    links: [{ rel: "canonical", href: "/renovations" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/renovations" }],
   }),
   component: Renovations,
 });
