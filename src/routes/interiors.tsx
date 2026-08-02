@@ -16,10 +16,10 @@ export const Route = createFileRoute("/interiors")({
       { name: "description", content: "Modular kitchens, walk-in wardrobes, luxury bedrooms and office fit-outs by RK Interiors — spatial design, joinery and lighting for premium homes in Bengaluru." },
       { property: "og:title", content: "Luxury Interior Designers in Bengaluru | RK Interiors" },
       { property: "og:description", content: "Kitchens, wardrobes, bedrooms and offices — designed and executed in-house." },
-      { property: "og:url", content: "/interiors" },
+      { property: "og:url", content: "https://www.rkinterio.com/interiors" },
       { property: "og:image", content: "/hero-living.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/interiors" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/interiors" }],
   }),
   component: InteriorsPage,
 });

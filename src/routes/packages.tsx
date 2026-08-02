@@ -10,9 +10,9 @@ export const Route = createFileRoute("/packages")({
       { name: "description", content: "Transparent interior design packages for 2 BHK, 3 BHK and villas — Essential, Premium and Luxe. Full-home interiors with material spec, warranty and timelines." },
       { property: "og:title", content: "Interior Packages & Pricing | RK Interiors" },
       { property: "og:description", content: "Essential, Premium and Luxe packages — with material spec, warranty and delivery timelines." },
-      { property: "og:url", content: "/packages" },
+      { property: "og:url", content: "https://www.rkinterio.com/packages" },
     ],
-    links: [{ rel: "canonical", href: "/packages" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/packages" }],
   }),
   component: PackagesPage,
 });

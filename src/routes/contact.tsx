@@ -14,9 +14,9 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Talk to Vedu at RK Interiors — call +91 95387 72060 or +91 78926 56285, WhatsApp us, or send a brief. Free consultation for interior and construction projects in Bengaluru." },
       { property: "og:title", content: "Contact RK Interiors — Book a Consultation" },
       { property: "og:description", content: "Call, WhatsApp, or send a brief. Free consultation across Bengaluru." },
-      { property: "og:url", content: "/contact" },
+      { property: "og:url", content: "https://www.rkinterio.com/contact" },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/contact" }],
   }),
   component: ContactPage,
 });

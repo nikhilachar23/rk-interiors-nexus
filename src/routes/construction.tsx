@@ -11,10 +11,10 @@ export const Route = createFileRoute("/construction")({
       { name: "description", content: "Ground-up villa construction, structural engineering and turnkey home building in Bengaluru — architecture, MEP, civil, finishes and handover, delivered under one contract." },
       { property: "og:title", content: "Turnkey Home Construction in Bengaluru | RK Interiors" },
       { property: "og:description", content: "Villa construction and turnkey building — one project lead, one warranty." },
-      { property: "og:url", content: "/construction" },
+      { property: "og:url", content: "https://www.rkinterio.com/construction" },
       { property: "og:image", content: "/hero-villa.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/construction" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/construction" }],
   }),
   component: ConstructionPage,
 });

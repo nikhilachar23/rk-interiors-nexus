@@ -9,9 +9,9 @@ export const Route = createFileRoute("/testimonials")({
       { name: "description", content: "Read what RK Interiors clients across Bengaluru say about their home, kitchen, office and villa handovers — verified reviews with locations and project types." },
       { property: "og:title", content: "Client Testimonials | RK Interiors" },
       { property: "og:description", content: "Verified reviews from clients across Bengaluru." },
-      { property: "og:url", content: "/testimonials" },
+      { property: "og:url", content: "https://www.rkinterio.com/testimonials" },
     ],
-    links: [{ rel: "canonical", href: "/testimonials" }],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/testimonials" }],
   }),
   component: TestimonialsPage,
 });
