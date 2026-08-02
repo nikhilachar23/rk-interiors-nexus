@@ -8,7 +8,17 @@ import { cn } from "@/lib/utils";
 
 const portfolioQuery = queryOptions({
   queryKey: ["portfolio"],
-  queryFn: async () => (await fetchPortfolio()) ?? portfolioSeed,
+  queryFn: async () => {
+    const live = await fetchPortfolio();
+    if (!live || live.length === 0) return portfolioSeed;
+    // Until real photos are uploaded in the CMS, fall back to the bundled
+    // image for a matching slug so no card renders without an image.
+    const bySlug = new Map(portfolioSeed.map((p) => [p.slug, p]));
+    return live.map((p) => ({
+      ...p,
+      mainImage: p.mainImage || bySlug.get(p.slug)?.mainImage || "",
+    }));
+  },
   staleTime: 60_000,
 });
 
