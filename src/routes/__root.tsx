@@ -94,10 +94,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       s?.seo?.metaDescription ??
       "RK Interiors — also known as Interiors by Vedu — designs and builds premium homes, modular kitchens, villas and commercial spaces across Bengaluru. Trusted for work inside Sattva, Prestige, Godrej and Sobha apartments.";
     const ogImage = s?.seo?.ogImageUrl;
-    const gaId = s?.analytics?.googleAnalyticsId?.trim();
-    const gtmId = s?.analytics?.googleTagManagerId?.trim();
+    // Editors sometimes paste an entire <script> snippet into the ID field.
+    // Extract just the measurement/container ID so we never inject broken JS.
+    const gaId = s?.analytics?.googleAnalyticsId?.match(/(G|AW|UA)-[A-Z0-9-]+/i)?.[0];
+    const gtmId = s?.analytics?.googleTagManagerId?.match(/GTM-[A-Z0-9]+/i)?.[0];
     const gsv = s?.analytics?.googleSiteVerification?.trim();
-    const customHead = s?.analytics?.customHeadHtml?.trim();
+    // Only inline JS is safe as script children; reject pasted markup.
+    const rawCustomHead = s?.analytics?.customHeadHtml?.trim();
+    const customHead = rawCustomHead && !/[<>]/.test(rawCustomHead) ? rawCustomHead : undefined;
     const faviconHref = s?.faviconUrl ?? "/favicon.ico";
 
     const meta: Array<Record<string, string>> = [
