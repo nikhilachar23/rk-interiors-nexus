@@ -75,6 +75,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: "https://www.rkinterio.com/" },
     ],
+    links: [{ rel: "canonical", href: "https://www.rkinterio.com/" }],
   }),
   component: HomePage,
 });
