@@ -37,7 +37,7 @@ function InteriorsPage() {
   return (
     <>
       <header className="navy-surface text-marble">
-        <div className="mx-auto max-w-7xl px-5 pb-16 pt-36 lg:px-8">
+        <div className="mx-auto max-w-7xl px-5 pb-16 pt-36 lg:px-8 animate-fade-in">
           <p className="eyebrow text-gold-gradient">Interior Design Studio</p>
           <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-[0.98] md:text-7xl">
             Spatial design that lives with you, <span className="text-gold-gradient">not around you.</span>

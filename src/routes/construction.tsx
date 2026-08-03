@@ -40,7 +40,7 @@ function ConstructionPage() {
       <header className="relative isolate overflow-hidden">
         <img src={villa} alt="RK Interiors villa construction in Bengaluru" width={1920} height={1152} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, oklch(0.14 0.035 265 / 0.75), oklch(0.14 0.035 265 / 0.9))" }} />
-        <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-40 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-40 lg:px-8 animate-fade-in">
           <p className="eyebrow text-gold-gradient">Turnkey Construction</p>
           <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-[0.98] text-marble md:text-7xl">
             Villas and homes, <span className="text-gold-gradient">built ground-up.</span>

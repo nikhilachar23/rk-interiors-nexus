@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
+import { Reveal } from "@/components/site/reveal";
 
 export function Section({
   children,
@@ -20,7 +21,7 @@ export function Section({
         : "";
   return (
     <section id={id} className={cn("py-20 lg:py-28", toneCls, className)}>
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">{children}</div>
+      <Reveal className="mx-auto max-w-7xl px-5 lg:px-8">{children}</Reveal>
     </section>
   );
 }

@@ -52,7 +52,7 @@ function PortfolioPage() {
   return (
     <>
       <header className="navy-surface text-marble">
-        <div className="mx-auto max-w-7xl px-5 pb-16 pt-36 lg:px-8">
+        <div className="mx-auto max-w-7xl px-5 pb-16 pt-36 lg:px-8 animate-fade-in">
           <p className="eyebrow text-gold-gradient">Portfolio</p>
           <h1 className="mt-4 max-w-3xl font-serif text-5xl md:text-7xl">
             Handovers we're <span className="text-gold-gradient">proud to sign.</span>
