@@ -30,7 +30,7 @@ function PackagesPage() {
   return (
     <>
       <header className="navy-surface text-marble">
-        <div className="mx-auto max-w-7xl px-5 pb-20 pt-36 lg:px-8">
+        <div className="mx-auto max-w-7xl px-5 pb-20 pt-36 lg:px-8 animate-fade-in">
           <p className="eyebrow text-gold-gradient">Our Packages</p>
           <h1 className="mt-4 font-serif text-5xl md:text-7xl">
             Three tiers. <span className="text-gold-gradient">Zero surprises on site.</span>
