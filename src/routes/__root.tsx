@@ -174,7 +174,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: siteName,
           alternateName: ["Interiors by Vedu", "RK Interiors Bengaluru"],
           description,
-          image: ogImage ?? "/rk-social.jpg",
+          image: ogImage ?? "https://www.rkinterio.com/rk-social.jpg",
           url: "https://www.rkinterio.com/",
           telephone: [s?.primaryPhone ?? "+91-9538772060", s?.secondaryPhone ?? "+91-7892656285"],
           email: s?.email ?? "vedaraj.vedu@gmail.com",
