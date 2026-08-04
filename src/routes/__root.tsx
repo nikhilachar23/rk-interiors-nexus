@@ -102,7 +102,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     // Only inline JS is safe as script children; reject pasted markup.
     const rawCustomHead = s?.analytics?.customHeadHtml?.trim();
     const customHead = rawCustomHead && !/[<>]/.test(rawCustomHead) ? rawCustomHead : undefined;
-    const faviconHref = s?.faviconUrl ?? "/favicon.ico";
+    // Always serve the bundled brand favicon so it is consistent everywhere.
+    const faviconHref = "/favicon.ico";
 
     const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
@@ -129,7 +130,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
     const links: Array<Record<string, string>> = [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: faviconHref },
+      { rel: "icon", type: "image/x-icon", href: faviconHref },
+      { rel: "icon", type: "image/png", sizes: "64x64", href: "/favicon.png" },
+      { rel: "shortcut icon", href: faviconHref },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
