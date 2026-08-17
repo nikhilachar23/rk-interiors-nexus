@@ -103,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const rawCustomHead = s?.analytics?.customHeadHtml?.trim();
     const customHead = rawCustomHead && !/[<>]/.test(rawCustomHead) ? rawCustomHead : undefined;
     // Always serve the bundled brand favicon so it is consistent everywhere.
-    const faviconHref = "/favicon.ico";
+    const faviconHref = "/icon-192.png?v=rk-interiors-20260817";
 
     const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
@@ -130,9 +130,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
     const links: Array<Record<string, string>> = [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/x-icon", href: faviconHref },
-      { rel: "icon", type: "image/png", sizes: "64x64", href: "/favicon.png" },
-      { rel: "shortcut icon", href: faviconHref },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: faviconHref },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "shortcut icon", type: "image/png", href: faviconHref },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
