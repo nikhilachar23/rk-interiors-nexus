@@ -102,8 +102,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     // Only inline JS is safe as script children; reject pasted markup.
     const rawCustomHead = s?.analytics?.customHeadHtml?.trim();
     const customHead = rawCustomHead && !/[<>]/.test(rawCustomHead) ? rawCustomHead : undefined;
-    // Always serve the bundled brand favicon so it is consistent everywhere.
-    const faviconHref = "/icon-192.png?v=rk-interiors-20260817";
+    // Use one unambiguous, crawlable favicon candidate derived from the site logo.
+    const faviconHref = "/rk-interiors-icon-192.png";
+    const brandLogoUrl = "https://www.rkinterio.com/rk-interiors-logo-512.png";
 
     const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
@@ -131,8 +132,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const links: Array<Record<string, string>> = [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/png", sizes: "192x192", href: faviconHref },
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: "shortcut icon", type: "image/png", href: faviconHref },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -167,7 +166,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           legalName: "RK Interiors",
           alternateName: ["Interiors by Vedu", "RK Interiors Bengaluru"],
           url: "https://www.rkinterio.com/",
-          logo: ogImage ?? "https://www.rkinterio.com/rk-social.jpg",
+          logo: brandLogoUrl,
         }),
       },
       {
@@ -179,7 +178,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: siteName,
           alternateName: ["Interiors by Vedu", "RK Interiors Bengaluru"],
           description,
-          image: ogImage ?? "https://www.rkinterio.com/rk-social.jpg",
+          image: ogImage ?? brandLogoUrl,
           url: "https://www.rkinterio.com/",
           telephone: [s?.primaryPhone ?? "+91-9538772060", s?.secondaryPhone ?? "+91-7892656285"],
           email: s?.email ?? "vedaraj.vedu@gmail.com",
