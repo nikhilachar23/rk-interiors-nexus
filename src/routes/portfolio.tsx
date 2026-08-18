@@ -5,6 +5,7 @@ import { Section, SectionHeading } from "@/components/site/section";
 import { fetchPortfolio, type PortfolioProject } from "@/lib/sanity";
 import { portfolioSeed } from "@/lib/portfolio-seed";
 import { cn } from "@/lib/utils";
+import { rkPageHead } from "@/lib/seo";
 
 const portfolioQuery = queryOptions({
   queryKey: ["portfolio"],
@@ -23,16 +24,11 @@ const portfolioQuery = queryOptions({
 });
 
 export const Route = createFileRoute("/portfolio")({
-  head: () => ({
-    meta: [
-      { title: "Portfolio — Completed Projects | RK Interiors" },
-      { name: "description", content: "A selection of completed residential, commercial, kitchen and office projects by RK Interiors — filterable by category." },
-      { property: "og:title", content: "Portfolio — Completed Projects | RK Interiors" },
-      { property: "og:description", content: "Filterable gallery of residential, commercial, kitchen and office projects." },
-      { property: "og:url", content: "https://www.rkinterio.com/portfolio" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/portfolio" }],
-  }),
+  head: () => rkPageHead(
+    "/portfolio",
+    "Portfolio — Completed Projects | RK Interiors",
+    "Explore completed RK Interiors apartment, villa, commercial, retail and modular kitchen projects across Bengaluru.",
+  ),
   loader: ({ context }) => {
     context.queryClient.ensureQueryData(portfolioQuery);
   },

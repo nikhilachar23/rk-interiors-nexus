@@ -3,19 +3,14 @@ import { Check, ArrowRight, Building2, Ruler, ShieldCheck, HardHat } from "lucid
 import { Section, SectionHeading } from "@/components/site/section";
 import { Button } from "@/components/ui/button";
 import villa from "@/assets/hero-villa.jpg";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/construction")({
-  head: () => ({
-    meta: [
-      { title: "Turnkey Home Construction in Bengaluru | RK Interiors" },
-      { name: "description", content: "Ground-up villa construction, structural engineering and turnkey home building in Bengaluru — architecture, MEP, civil, finishes and handover, delivered under one contract." },
-      { property: "og:title", content: "Turnkey Home Construction in Bengaluru | RK Interiors" },
-      { property: "og:description", content: "Villa construction and turnkey building — one project lead, one warranty." },
-      { property: "og:url", content: "https://www.rkinterio.com/construction" },
-      { property: "og:image", content: "/hero-villa.jpg" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/construction" }],
-  }),
+  head: () => rkPageHead(
+    "/construction",
+    "Turnkey Home Construction in Bengaluru | RK Interiors",
+    "Ground-up villa construction, structural engineering and turnkey home building in Bengaluru by RK Interiors, delivered under one contract.",
+  ),
   component: ConstructionPage,
 });
 

@@ -9,18 +9,14 @@ import wardrobe from "@/assets/expertise-wardrobe.jpg";
 import dining from "@/assets/gallery-dining.jpg";
 import bath from "@/assets/gallery-bath.jpg";
 import retail from "@/assets/gallery-retail.jpg";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
-  head: () => ({
-    meta: [
-      { title: "Gallery — Interior & Construction Projects | RK Interiors" },
-      { name: "description", content: "A high-resolution gallery of interior design, modular kitchen, wardrobe, bath and construction projects delivered by RK Interiors in Bengaluru." },
-      { property: "og:title", content: "Gallery | RK Interiors" },
-      { property: "og:description", content: "High-resolution project imagery — homes, kitchens, wardrobes, baths and workspaces." },
-      { property: "og:url", content: "https://www.rkinterio.com/gallery" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/gallery" }],
-  }),
+  head: () => rkPageHead(
+    "/gallery",
+    "Gallery — Interior & Construction Projects | RK Interiors",
+    "Explore RK Interiors projects across Bengaluru, including homes, modular kitchens, wardrobes, bathrooms, villas and workspaces.",
+  ),
   component: GalleryPage,
 });
 

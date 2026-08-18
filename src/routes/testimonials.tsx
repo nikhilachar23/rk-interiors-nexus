@@ -1,18 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/section";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/testimonials")({
-  head: () => ({
-    meta: [
-      { title: "Client Testimonials & Reviews | RK Interiors Bengaluru" },
-      { name: "description", content: "Read what RK Interiors clients across Bengaluru say about their home, kitchen, office and villa handovers — verified reviews with locations and project types." },
-      { property: "og:title", content: "Client Testimonials | RK Interiors" },
-      { property: "og:description", content: "Verified reviews from clients across Bengaluru." },
-      { property: "og:url", content: "https://www.rkinterio.com/testimonials" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/testimonials" }],
-  }),
+  head: () => rkPageHead(
+    "/testimonials",
+    "Client Testimonials & Reviews | RK Interiors Bengaluru",
+    "Read RK Interiors client reviews for home, kitchen, office and villa projects completed across Bengaluru by Vedu and his team.",
+  ),
   component: TestimonialsPage,
 });
 

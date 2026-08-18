@@ -87,7 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   },
   head: ({ loaderData }) => {
     const s = loaderData?.settings ?? null;
-    const siteName = s?.brandName ?? "RK Interiors";
+    // Keep the public identity immutable even if legacy CMS data contains an old template name.
+    const siteName = "RK Interiors";
     const title =
       s?.seo?.metaTitle ?? "RK Interiors (Vedu) — Interior Design & Turnkey Construction in Bengaluru";
     const description =
