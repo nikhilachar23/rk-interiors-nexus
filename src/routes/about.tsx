@@ -3,26 +3,14 @@ import { Section, SectionHeading } from "@/components/site/section";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Hammer, Sparkles } from "lucide-react";
 import heroLiving from "@/assets/hero-living.jpg";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Vedu — The Name Behind RK Interiors | Bengaluru" },
-      {
-        name: "description",
-        content:
-          "RK Interiors is run by Vedu (Vedhachar), a Bengaluru interior designer and turnkey construction contractor. Also known as Interiors by Vedu — trusted for work inside Sattva, Prestige, Godrej, Sobha and DX Max apartments, BDA homes, 4BHK/5BHK villas and commercial showrooms across Bangalore.",
-      },
-      { property: "og:title", content: "About Vedu — The Name Behind RK Interiors" },
-      {
-        property: "og:description",
-        content:
-          "Meet Vedu — interior designer and turnkey construction contractor behind RK Interiors (also known as Interiors by Vedu). 150+ homes and spaces delivered across Bengaluru.",
-      },
-      { property: "og:url", content: "https://www.rkinterio.com/about" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/about" }],
-  }),
+  head: () => rkPageHead(
+    "/about",
+    "About Vedu — The Name Behind RK Interiors | Bengaluru",
+    "Meet Vedu (Vedhachar), the Bengaluru interior designer and turnkey construction contractor behind RK Interiors and Interiors by Vedu.",
+  ),
   component: AboutPage,
 });
 

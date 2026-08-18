@@ -6,18 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact RK Interiors — Book a Consultation in Bengaluru" },
-      { name: "description", content: "Talk to Vedu at RK Interiors — call +91 95387 72060 or +91 78926 56285, WhatsApp us, or send a brief. Free consultation for interior and construction projects in Bengaluru." },
-      { property: "og:title", content: "Contact RK Interiors — Book a Consultation" },
-      { property: "og:description", content: "Call, WhatsApp, or send a brief. Free consultation across Bengaluru." },
-      { property: "og:url", content: "https://www.rkinterio.com/contact" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/contact" }],
-  }),
+  head: () => rkPageHead(
+    "/contact",
+    "Contact RK Interiors — Book a Consultation in Bengaluru",
+    "Talk to Vedu at RK Interiors by phone, WhatsApp or enquiry form for a free interior design or construction consultation in Bengaluru.",
+  ),
   component: ContactPage,
 });
 

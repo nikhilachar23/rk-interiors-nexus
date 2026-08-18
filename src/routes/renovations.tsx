@@ -4,18 +4,14 @@ import { Section, SectionHeading } from "@/components/site/section";
 import { Button } from "@/components/ui/button";
 import retail from "@/assets/gallery-retail.jpg";
 import living from "@/assets/hero-living.jpg";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/renovations")({
-  head: () => ({
-    meta: [
-      { title: "Home & Commercial Renovations in Bengaluru | RK Interiors" },
-      { name: "description", content: "Residential and commercial renovation specialists in Bengaluru — structural retrofits, façade overhauls, layout re-plans and modernisation projects by RK Interiors." },
-      { property: "og:title", content: "Home & Commercial Renovations | RK Interiors" },
-      { property: "og:description", content: "Structural retrofits, layout re-plans and full modernisation projects." },
-      { property: "og:url", content: "https://www.rkinterio.com/renovations" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/renovations" }],
-  }),
+  head: () => rkPageHead(
+    "/renovations",
+    "Home & Commercial Renovations in Bengaluru | RK Interiors",
+    "Residential and commercial renovations in Bengaluru by RK Interiors, including structural retrofits, layout re-plans and complete modernisation.",
+  ),
   component: Renovations,
 });
 

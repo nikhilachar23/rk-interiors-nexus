@@ -8,19 +8,14 @@ import wardrobe from "@/assets/expertise-wardrobe.jpg";
 import bedroom from "@/assets/expertise-bedroom.jpg";
 import office from "@/assets/expertise-office.jpg";
 import bath from "@/assets/gallery-bath.jpg";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/interiors")({
-  head: () => ({
-    meta: [
-      { title: "Luxury Interior Designers in Bengaluru | RK Interiors" },
-      { name: "description", content: "Modular kitchens, walk-in wardrobes, luxury bedrooms and office fit-outs by RK Interiors — spatial design, joinery and lighting for premium homes in Bengaluru." },
-      { property: "og:title", content: "Luxury Interior Designers in Bengaluru | RK Interiors" },
-      { property: "og:description", content: "Kitchens, wardrobes, bedrooms and offices — designed and executed in-house." },
-      { property: "og:url", content: "https://www.rkinterio.com/interiors" },
-      { property: "og:image", content: "/hero-living.jpg" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/interiors" }],
-  }),
+  head: () => rkPageHead(
+    "/interiors",
+    "Luxury Interior Designers in Bengaluru | RK Interiors",
+    "Modular kitchens, wardrobes, luxury bedrooms and office fit-outs designed and executed in-house by RK Interiors in Bengaluru.",
+  ),
   component: InteriorsPage,
 });
 

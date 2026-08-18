@@ -2,18 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/section";
 import { Button } from "@/components/ui/button";
+import { rkPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/packages")({
-  head: () => ({
-    meta: [
-      { title: "Interior Packages & Pricing in Bengaluru | RK Interiors" },
-      { name: "description", content: "Transparent interior design packages for 2 BHK, 3 BHK and villas — Essential, Premium and Luxe. Full-home interiors with material spec, warranty and timelines." },
-      { property: "og:title", content: "Interior Packages & Pricing | RK Interiors" },
-      { property: "og:description", content: "Essential, Premium and Luxe packages — with material spec, warranty and delivery timelines." },
-      { property: "og:url", content: "https://www.rkinterio.com/packages" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.rkinterio.com/packages" }],
-  }),
+  head: () => rkPageHead(
+    "/packages",
+    "Interior Packages & Pricing in Bengaluru | RK Interiors",
+    "Transparent RK Interiors packages for 2 BHK, 3 BHK and villas, with material specifications, warranties and clear delivery timelines.",
+  ),
   component: PackagesPage,
 });
 
